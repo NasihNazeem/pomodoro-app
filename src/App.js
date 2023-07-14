@@ -1,38 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import "./index.css"; // Assuming this is the path to your CSS file
 import { ButtonGroup } from "./ButtonGroup";
 import StartButton from "./StartButton";
 import Timer from "./Timer";
 import Settings from "./Settings";
-
-const timerModes = {
-  pomodoro: {
-    minutes: 25,
-    seconds: 0,
-  },
-  short: {
-    minutes: 5,
-    seconds: 0,
-  },
-  long: {
-    minutes: 15,
-    seconds: 0,
-  },
-};
+import { TimerModesContext } from "./TimerModesContext";
 
 function App() {
+  const { timerModes } = useContext(TimerModesContext);
   const [backgroundColor] = useState("#E9EDC9");
   const [activeButton, setActiveButton] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeMode, setActiveMode] = useState(timerModes.pomodoro);
   const [showSettings, setShowSettings] = useState(false);
-  // const changeColor = (color) => {
-  //   setBackgroundColor(color);
-  // };
-
-  useEffect(() => {
-    console.log(showSettings);
-  }, [showSettings]);
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
@@ -43,14 +23,12 @@ function App() {
         <ButtonGroup
           activeButton={activeButton}
           setActiveButton={setActiveButton}
-          timerModes={timerModes}
           setActiveMode={setActiveMode}
           isPlaying={isPlaying}
         />
         <Timer
           isPlaying={isPlaying}
           activeMode={activeMode}
-          timerModes={timerModes}
           setIsPlaying={setIsPlaying}
           setActiveMode={setActiveMode}
           setActiveButton={setActiveButton}
@@ -71,8 +49,6 @@ function App() {
           clipRule="evenodd"
         />
       </svg>
-
-      {/* <Colors changeColor={changeColor} /> */}
     </div>
   );
 }

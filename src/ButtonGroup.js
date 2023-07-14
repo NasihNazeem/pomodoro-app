@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./index.css";
+import { TimerModesContext } from "./TimerModesContext";
 
 export function ButtonGroup(props) {
+  const { timerModes } = useContext(TimerModesContext);
   const handleButtonClick = (buttonNumber) => {
     props.setActiveButton(buttonNumber);
 
     if (buttonNumber === 0) {
-      props.setActiveMode(props.timerModes.pomodoro);
+      props.setActiveMode(timerModes.pomodoro);
     } else if (buttonNumber === 1) {
-      props.setActiveMode(props.timerModes.short);
+      props.setActiveMode(timerModes.short);
     } else if (buttonNumber === 2) {
-      props.setActiveMode(props.timerModes.long);
+      props.setActiveMode(timerModes.long);
     }
   };
 

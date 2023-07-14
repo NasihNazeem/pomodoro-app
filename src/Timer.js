@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import "./index.css";
+import { TimerModesContext } from "./TimerModesContext";
 
 function Timer(props) {
-  const [prevState, setPrevState] = useState(props.timerModes.long);
+  const { timerModes } = useContext(TimerModesContext);
+  const [prevState, setPrevState] = useState(timerModes.long);
+
+  useEffect(() => {
+    // Access the updated timerModes state here
+  }, [timerModes]);
 
   const children = ({ remainingTime }) => {
     const minutes = String(Math.floor(remainingTime / 60)).padStart(2, "0");
@@ -31,20 +37,20 @@ function Timer(props) {
           size={250}
           onComplete={() => {
             props.setIsPlaying(false);
-            if (props.activeMode === props.timerModes.short) {
+            if (props.activeMode === timerModes.short) {
               setPrevState(props.activeMode);
-              props.setActiveMode(props.timerModes.pomodoro);
+              props.setActiveMode(timerModes.pomodoro);
               props.setActiveButton(0);
-            } else if (props.activeMode === props.timerModes.long) {
+            } else if (props.activeMode === timerModes.long) {
               setPrevState(props.activeMode);
-              props.setActiveMode(props.timerModes.pomodoro);
+              props.setActiveMode(timerModes.pomodoro);
               props.setActiveButton(0);
-            } else if (props.activeMode === props.timerModes.pomodoro) {
-              if (prevState === props.timerModes.long) {
-                props.setActiveMode(props.timerModes.short);
+            } else if (props.activeMode === timerModes.pomodoro) {
+              if (prevState === timerModes.long) {
+                props.setActiveMode(timerModes.short);
                 props.setActiveButton(1);
-              } else if (prevState === props.timerModes.short) {
-                props.setActiveMode(props.timerModes.long);
+              } else if (prevState === timerModes.short) {
+                props.setActiveMode(timerModes.long);
                 props.setActiveButton(2);
               }
             }
